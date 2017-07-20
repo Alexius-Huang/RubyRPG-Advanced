@@ -1,0 +1,29 @@
+- :message:
+    :value: Welcome to RubyRPG <%= version %>
+    :color: red
+
+- :options:
+    :values:
+      - New Game
+      - Load Game
+      - Exit
+
+- :jump_to: start_new_game
+- :jump_to: load_game
+- :jump_to: exit_game
+
+- :label: start_new_game
+- :system: clear
+- :transfer:
+    :controller: main
+    :action: new_game
+
+- :label: load_game
+- :message:
+    :value: load game
+- :system: exit
+
+- :label: exit_game
+- :message:
+    :value: exit game
+- :system: exit
