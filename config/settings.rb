@@ -15,6 +15,7 @@ module RubyRPG
         active_support
         colorize
         erb
+        json
         ostruct
         yaml
       ],
@@ -29,6 +30,7 @@ module RubyRPG
     Files = %w[
       /config/extension.rb
       /application/objects/universe.rb
+      /application/objects/matrix.rb
       /application/objects/location.rb
       /application/objects/character.rb
       /application/objects/monster.rb
@@ -37,6 +39,7 @@ module RubyRPG
       /application/controllers/application.rb
       /application/controllers/base.rb
       /application/controllers/main.rb
+      /application/controllers/location.rb
       /config/constant.rb
       /config/callback.rb
     ].freeze

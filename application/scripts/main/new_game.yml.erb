@@ -1,8 +1,35 @@
-- :prompt:
+- :input:
+    :type: prompt
     :key: character_name
-    :message: Input your character name
-    :check: true
+    :message: Name Your Character
+- :options:
+    :message: Choose Your Character's Role
+    :values:
+      - Warrior
+      - Magician
+
+- :jump_to: warrior_path
+- :jump_to: magician_path
+
+- :label: warrior_path
+- :input:
+    :type: text
+    :key: character_role
+    :value: warrior
+- :jump_to: create_character
+
+- :label: magician_path
+- :input:
+    :type: text
+    :key: character_role
+    :value: magician
+- :jump_to: create_character
+
+- :label: create_character
 - :post:
     :controller: main
     :action: create_character
-- :system: exit
+
+- :transfer:
+    :controller: main
+    :action: menu

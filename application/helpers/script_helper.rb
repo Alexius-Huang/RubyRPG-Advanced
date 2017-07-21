@@ -20,18 +20,37 @@ module ScriptHelper
           skip_instruction += params[:jump]
         end
 
-      when instruction.has_key?(:prompt)
-        params = instruction[:prompt]
-        puts " - #{params[:message]} -"
-        print ">>> "
-        user_input params[:key], gets.chomp
+      when instruction.has_key?(:input)
+        params = instruction[:input]
+        case params[:type]
+        when 'prompt'
+          puts " - #{params[:message]} -".cyan
+          print ">>> "
+          user_input params[:key].to_sym, gets.chomp
+        when 'range'
+          loop do
+            puts " - Please Input #{params[:start]} ~ #{params[:end]} -".cyan
+            print ">>> "
+            input = gets.chomp.to_i
+            if (params[:start]..params[:end]).include? input
+              user_input params[:key].to_sym, input
+              break
+            else
+              puts "Wrong Selection! Please Input in Range #{params[:start]} ~ #{params[:end]}".red
+            end
+          end
+        when 'text'
+          user_input params[:key].to_sym, (params[:value] || gets.chomp)
+        end
         
       when instruction.has_key?(:options)
-        options = instruction[:options][:values]
+        params = instruction[:options]
+        options = params[:values]
         range = 1..(options.length)
         loop do
-          puts "Please Select 1 ~ #{options.length} :"
-          options.each { |option| puts " - #{option}" }
+          puts " - #{params[:message]} -".cyan if params[:message]
+          puts " -  Please Select 1 ~ #{options.length} -"
+          options.each_with_index { |option, index| puts " (#{index.next}) #{option}".yellow }
           print ">>> "
           selection = gets.chomp
           if not Regex.match_digits?(selection)

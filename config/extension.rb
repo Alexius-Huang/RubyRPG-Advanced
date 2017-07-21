@@ -27,6 +27,10 @@ module RubyRPG
     # def method_added(name)
     # end
 
+    def attributes
+      @attribute_methods
+    end
+
     def defined_methods
       instance_methods(false) - (@attribute_methods || [])
     end

@@ -1,0 +1,19 @@
+- :system: clear
+- :message:
+    :value: Please Choose the Game Record
+<% records.each_with_index do |record, index| %>
+- :message:
+    :value: <%= index.next %>) <%= record[:character][:name] %> - Level <%= record[:character][:level] %> <%= record[:character][:role].capitalize %> 
+<% end %>
+- :input:
+    :type: range
+    :key: load_record_id
+    :start: 1
+    :end: <%= records.size %>
+- :post:
+    :controller: main
+    :action: load_character
+
+- :transfer:
+    :controller: location
+    :action: adventure
