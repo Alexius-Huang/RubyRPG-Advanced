@@ -20,4 +20,8 @@ class MainController < BaseController
   def load_character(params)
     Character.set!(params[:load_record_id])
   end
+
+  def save_game(params)
+    Matrix.save_game!(Character.main_character.id)
+  end
 end

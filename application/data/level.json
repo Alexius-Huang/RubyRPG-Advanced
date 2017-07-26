@@ -1,0 +1,5 @@
+[
+  {"level": 1, "required_experience": 10, "health": 50, "mana": 10},
+  {"level": 2, "required_experience": 20, "health": 65, "mana": 12},
+  {"level": 3, "required_experience": 35, "health": 85, "mana": 15}
+]

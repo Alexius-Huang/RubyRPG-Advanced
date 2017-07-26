@@ -1,0 +1,64 @@
+- :system: clear
+- :message:
+    :value: You are in <%= location.name %>
+- :options:
+    :message: What do you want to do?
+    :values:
+      - Explore
+      - Check Inventory
+      - Save Game
+      - Exit Game
+
+- :jump_to: explore_path
+- :jump_to: check_inventory_path
+- :jump_to: save_game_path
+- :jump_to: exit_game_path
+
+- :label: explore_path
+- :jump_to: <%= encounter[:label] %>
+
+<% if encounter[:label] == 'fight_monster' %>
+- :label: fight_monster
+- :message:
+    :value: Ready to Fight Monster...
+    :color: light_red
+- :system: sleep 2
+- :input:
+    :type: text
+    :key: monster_id
+    :value: <%= encounter[:monster_id] %>
+- :post:
+    :controller: explore
+    :action: encounter_monster
+- :transfer:
+    :controller: explore
+    :action: combat
+<% elsif encounter[:label] == 'nothing_special' %>
+- :label: nothing_special
+- :message:
+    :value: Nothing Happened During Exploration...
+    :color: magenta
+- :system: sleep 2
+- :system: rerun_controller
+<% end %>
+
+- :label: check_inventory_path
+- :message:
+    :value: Inventory system coming soon!
+- :system: rerun_script
+
+- :label: save_game_path
+- :post:
+    :controller: main
+    :action: save_game
+- :message:
+    :value: Your Game Has Been Saved!
+    :color: green
+- :system: sleep 2
+- :system: rerun_script
+
+- :label: exit_game_path
+- :message:
+    :value: Exit Game
+    :color: red
+- :system: exit

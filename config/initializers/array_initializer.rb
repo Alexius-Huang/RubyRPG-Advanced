@@ -9,5 +9,9 @@ module ArrayInitializer
       result = select { |hash| hash[key] == args[0] }
       result.length.zero? ? nil : result.first
     end
+
+    def symbolize_keys
+      map{ |v| (v.is_a?(Hash) or v.is_a?(Array)) ? v.symbolize_keys : v }
+    end
   end
 end

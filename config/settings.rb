@@ -39,7 +39,7 @@ module RubyRPG
       /application/controllers/application.rb
       /application/controllers/base.rb
       /application/controllers/main.rb
-      /application/controllers/location.rb
+      /application/controllers/explore.rb
       /config/constant.rb
       /config/callback.rb
     ].freeze

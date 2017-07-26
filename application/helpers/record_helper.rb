@@ -2,7 +2,6 @@
 
 module RecordHelper
   RecordFile = "#{RubyRPG::Settings::ROOT}/application/data/record.json"
-  RecordDirectory = "#{RubyRPG::Settings::ROOT}/application/records"
 
   def records
     JSON.parse_file RecordFile
@@ -14,19 +13,15 @@ module RecordHelper
 
   def write_record(id, hash)
     current_record = records
-    if current_record.query_id(id).nil?
+    query_record = current_record.query_id(id)
+    if query_record.nil?
       hash[:id] = current_record.last ? current_record.last.id.next : 1
+      hash[:character][:id] = hash[:id]
       File.open(RecordFile, 'w') { |file| file.write(current_record.push(hash).to_json) }
     else
-      # Old record
+      hash[:id] = id
+      current_record[current_record.index(query_record)] = hash
+      File.open(RecordFile, 'w') { |file| file.write(current_record.to_json) }
     end
-    # id ||= generate_new_record_file
-    # File.open("#{RecordDirectory}/record_#{id}.json", 'w') { |file| file.write(content) }
   end
-
-  # def generate_new_record_file
-  #   id = Dir.file_counts("#{RecordDirectory}/*.json").next
-  #   system "touch '#{RecordDirectory}/record_#{id}.json'"
-  #   id
-  # end
 end

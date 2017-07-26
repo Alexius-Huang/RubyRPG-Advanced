@@ -1,0 +1,59 @@
+- :system: clear
+- :message:
+    :value: You have encountered the <%= monster.name %> !
+    :color: light_red
+
+- :label: show_combat_stat
+- :send:
+    :receiver: Character
+    :method: print_status
+- :system: new_line
+- :send:
+    :receiver: Monster
+    :method: print_status
+- :system: new_line
+
+- :options:
+    :message: Choose Your Action
+    :values:
+      - Attack
+      - Defense
+      - Open Inventory
+      - Try Escape
+
+- :jump_to: attack_path
+- :jump_to: defense_path
+- :jump_to: open_inventory_path
+- :jump_to: try_escape_path
+
+- :label: attack_path
+- :input:
+    :type: text
+    :key: active
+    :value: Character
+- :input:
+    :type: text
+    :key: passive
+    :value: Monster
+- :post:
+    :controller: explore
+    :action: attack
+- :transfer:
+    :controller: explore
+    :action: attack_dialogue
+    :params:
+      :active: Character
+      :passive: Monster
+
+- :label: defense_path
+- :message:
+    :value: Path Coming Soon...
+
+- :label: open_inventory_path
+- :message:
+    :value: Path Coming Soon...
+
+- :label: try_escape_path
+- :message:
+    :value: Path Coming Soon...
+- :system: exit
