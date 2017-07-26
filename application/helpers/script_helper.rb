@@ -65,10 +65,11 @@ module ScriptHelper
           end
         end
 
-      when instruction.has_key?(:if)
-        params = instruction[:if]
+      when (instruction.has_key?(:if) or instruction.has_key?(:elsif))
+        params = instruction.has_key?(:if) ? instruction[:if] : instruction[:elsif]
         jump_label = params[:condition] ? params[:jump] : params[:else_jump]
-        skip_instruction = script.index({ label: jump_label }) - index        
+        next if jump_label.nil?
+        skip_instruction = script.index({ label: jump_label }) - index
 
       when instruction.has_key?(:post)
         params = instruction[:post]
@@ -84,14 +85,14 @@ module ScriptHelper
         skip_instruction = script.index({ label: instruction[:jump_to] }) - index
 
       when instruction.has_key?(:label)
-        # puts "Entering label: #{instruction[:lable]}".cyan if development?
+        # puts "Entering label: #{instruction[:label]}".cyan if development?
       
       when instruction.has_key?(:transfer)
         params = instruction[:transfer]
         transfer_controller = Object.controller_const_get(params[:controller])
         transfer_action = params[:action].to_sym
-        ApplicationController.set_transfer_label params[:skip_to]
-        ApplicationController.set_params params[:params]
+        ApplicationController.set_transfer_label params[:skip_to] if params.has_key?(:skip_to)
+        ApplicationController.set_params params[:params] if params.has_key?(:params)
         break
 
       when instruction.has_key?(:system)
@@ -107,7 +108,7 @@ module ScriptHelper
           transfer_controller = Object.const_get "#{current_class.to_camelcase}Controller"
           transfer_action = current_method
           break
-        when 'rerun_script' 
+        when 'rerun_script'
           rerun_script = true
           break
         end

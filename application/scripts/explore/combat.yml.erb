@@ -4,14 +4,8 @@
     :color: light_red
 
 - :label: show_combat_stat
-- :send:
-    :receiver: Character
-    :method: print_status
-- :system: new_line
-- :send:
-    :receiver: Monster
-    :method: print_status
-- :system: new_line
+<%= InstructionHelper.print_character_stat %>
+<%= InstructionHelper.print_monster_stat %>
 
 - :options:
     :message: Choose Your Action
@@ -37,10 +31,10 @@
     :value: Monster
 - :post:
     :controller: explore
-    :action: attack
+    :action: attack_action
 - :transfer:
     :controller: explore
-    :action: attack_dialogue
+    :action: attack
     :params:
       :active: Character
       :passive: Monster

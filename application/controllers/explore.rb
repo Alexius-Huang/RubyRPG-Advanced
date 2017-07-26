@@ -12,7 +12,7 @@ class ExploreController < BaseController
     @monster = Monster.current_instance
   end
 
-  def attack_dialogue; end
+  def attack; end
 
   private
 
@@ -25,9 +25,13 @@ class ExploreController < BaseController
     Monster.set! params[:monster_id]
   end
 
-  def attack(params)
+  def attack_action(params)
     active_role = Object.const_get(params[:active]).current_instance
     passive_role = Object.const_get(params[:passive]).current_instance
     active_role.attack(passive_role)
+  end
+
+  def gain_experience(params)
+    Character.current_instance.gain_experience params[:gained_experience]
   end
 end

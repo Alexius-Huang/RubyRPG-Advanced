@@ -22,6 +22,6 @@ class MainController < BaseController
   end
 
   def save_game(params)
-    Matrix.save_game!(Character.main_character.id)
+    Matrix.save_game!(Character.current_instance.id)
   end
 end

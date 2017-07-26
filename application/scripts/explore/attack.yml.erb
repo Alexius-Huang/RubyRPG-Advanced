@@ -1,0 +1,86 @@
+- :system: clear
+- :label: attack_start
+- :message:
+    :value: <%= active.name %> is trying to attack <%= passive.name %>...
+    :color: yellow
+- :system: sleep 2
+
+- :if:
+    :condition: <%= active.caused_injury.zero? %>
+    :jump: attack_failed
+    :else_jump: attack_success
+
+- :label: attack_success
+- :message:
+    :value: <%= active.name %> attacked the <%= passive.name %> which caused <%= active.caused_injury %> health points!
+    :color: light_red
+- :system: new_line
+
+- :if:
+    :condition: <%= passive.dead? %>
+    :jump: battle_end
+- :elsif:
+    :condition: <%= active.is_a?(Monster) %>
+    :jump: battle_continue
+    :else_jump: monster_attack
+
+- :label: monster_attack
+- :input:
+    :type: text
+    :key: active
+    :value: Monster
+- :input:
+    :type: text
+    :key: passive
+    :value: Character
+- :post:
+    :controller: explore
+    :action: attack_action
+- :transfer:
+    :controller: explore
+    :action: attack
+    :skip_to: attack_start
+    :params:
+      :active: Monster
+      :passive: Character
+
+- :label: battle_continue
+- :transfer:
+    :controller: explore
+    :action: combat
+    :skip_to: show_combat_stats
+
+- :label: battle_end
+- :if:
+    :condition: <%= passive.is_a?(Monster) %>
+    :jump: victory
+    :jump_else: character_died
+
+- :label: victory
+- :system: clear
+- :message:
+    :value: Victory! <%= passive.name %> is being defeated!
+    :color: cyan
+- :message:
+    :value:  <%= active.name %> gained <%= passive.experience %> EXP!
+    :color: light_green
+- :input:
+    :type: text
+    :key: gained_experience
+    :value: <%= passive.experience %>
+- :post:
+    :controller: explore
+    :action: gain_experience
+- :transfer:
+    :controller: explore
+    :action: adventure
+    :skip_to: location_start
+
+- :label: character_died
+- :message:
+    :value: Character Died Path Coming Soon...
+
+- :label: attack_failed
+- :message:
+    :value: Attack Failed Path Coming Soon...
+- :system: exit

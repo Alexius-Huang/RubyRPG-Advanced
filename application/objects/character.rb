@@ -77,4 +77,8 @@ class Character < Universe
     @health -= point
     @health = 0 unless @health > 0
   end
+
+  def gain_experience(experience)
+    @experience += experience
+  end
 end

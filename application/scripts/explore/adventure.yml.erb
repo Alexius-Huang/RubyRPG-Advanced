@@ -1,6 +1,12 @@
 - :system: clear
+
+- :label: location_start
 - :message:
-    :value: You are in <%= location.name %>
+    :value: "You are in the <%= location.name %> ..."
+    :color: cyan
+- :system: new_line
+
+<%= InstructionHelper.print_character_stat %>
 - :options:
     :message: What do you want to do?
     :values:
